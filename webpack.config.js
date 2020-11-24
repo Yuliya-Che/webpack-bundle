@@ -4,15 +4,15 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const WebpackBar = require("webpackbar");
 
-const loadModeConfig = (env) => {
-  require(`./build-utils/${env.mode}.config`)(env);
-};
+const loadModeConfig = (env) =>
+  require(`./build-utils/${env.mode}.config.js`)(env);
 
 module.exports = (env) =>
   merge(
     {
       mode: env.mode,
       context: path.resolve(__dirname, "src"),
+
       entry: "./index.js",
       output: {
         path: path.resolve(__dirname, "dist"),
@@ -27,7 +27,7 @@ module.exports = (env) =>
           },
           {
             test: /\.html$/,
-            use: [],
+            use: ["html-loader"],
           },
           {
             test: /\.(gif|png|jpe?g|svg)$/,
@@ -53,5 +53,5 @@ module.exports = (env) =>
         new WebpackBar(),
       ],
     },
-    loadModeConfig(env)
+    loadModeConfig(env),
   );
